@@ -59,21 +59,50 @@ const showWinner = (winner) => {
     disabledBoxes();
 };
 
-const checkWinner = () => {
-    for (let pattern of winpatterns){
-        let pos1val = boxes[pattern[0]].innerText
-        let pos2val = boxes[pattern[1]].innerText
-        let pos3val = boxes[pattern[2]].innerText
+// const checkWinner = () => {
+//     for (let pattern of winpatterns){
+//         let pos1val = boxes[pattern[0]].innerText
+//         let pos2val = boxes[pattern[1]].innerText
+//         let pos3val = boxes[pattern[2]].innerText
 
-        if(pos1val != "" && pos2val != "" && pos3val != ""){
-            if(pos1val==pos2val && pos2val==pos3val){
+//         if(pos1val != "" && pos2val != "" && pos3val != ""){
+//             if(pos1val==pos2val && pos2val==pos3val){
                 
-                showWinner(pos1val);
+//                 showWinner(pos1val);
                 
-            }
+//             }
+//         }
+//     } 
+    
+// };
+
+const checkWinner = () => {
+    let winnerFound = false;
+
+    for (let pattern of winpatterns) {
+        let pos1val = boxes[pattern[0]].innerText;
+        let pos2val = boxes[pattern[1]].innerText;
+        let pos3val = boxes[pattern[2]].innerText;
+
+        if (pos1val !== "" && pos1val === pos2val && pos2val === pos3val) {
+            showWinner(pos1val);
+            winnerFound = true;
+            break;
         }
-    }     
+    }
+
+    // Agar winner nahi mila aur sabhi boxes fill ho chuke hain
+    if (!winnerFound) {
+        let allFilled = [...boxes].every(box => box.innerText !== "");
+        if (allFilled) {
+            msg.innerText = "😅 It's a draw!";
+            msgContainer.classList.remove("hide");
+        }
+    }
 };
+    
+
+
 
 newGameBtn.addEventListener("click",resetGame);
 resetbutton.addEventListener("click",resetGame);
